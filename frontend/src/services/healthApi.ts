@@ -4,7 +4,11 @@ import type {
   HealthPlanResponse,
 } from "@/lib/types"
 
-const API_BASE_URL = "http://127.0.0.1:5000"
+// Use the Render backend in production.
+// Falls back to the local Flask server during development.
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://127.0.0.1:5000"
 
 
 // ---------------------------------------------------------
