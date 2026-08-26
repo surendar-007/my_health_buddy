@@ -363,108 +363,37 @@ export function CustomizeSection({
   }
 
 
-  /* -------------------------------------------------- */
-  /* KEEP TARGET VALID */
-  /* -------------------------------------------------- */
-
   useEffect(() => {
+  if (
+    height <= 0 ||
+    currentWeight <= 0
+  ) {
+    return
+  }
 
-    if (
-      height <= 0 ||
-      currentWeight <= 0
-    ) {
-      return
-    }
+  if (goal !== "maintenance") {
+    return
+  }
 
-    const target =
-      Number(targetWeight)
+  const maintenanceTarget =
+    Math.round(
+      currentWeight * 10,
+    ) / 10
 
-    if (
-      !Number.isFinite(target)
-    ) {
-      return
-    }
-
-
-    /* Maintenance */
-
-    if (
-      goal ===
-      "maintenance"
-    ) {
-      const maintenanceTarget =
-        Math.round(
-          currentWeight * 10,
-        ) / 10
-
-      if (
-        target !==
-        maintenanceTarget
-      ) {
-        setTargetWeight(
-          String(
-            maintenanceTarget,
-          ),
-        )
-      }
-
-      return
-    }
-
-
-    /* Gain */
-
-    if (
-      goal === "gain" &&
-      target <= currentWeight
-    ) {
-      const nextTarget =
-        Math.min(
-          healthyMax,
-          Math.round(
-            (currentWeight +
-              0.5) *
-              10,
-          ) / 10,
-        )
-
-      setTargetWeight(
-        String(nextTarget),
-      )
-
-      return
-    }
-
-
-    /* Loss */
-
-    if (
-      goal === "loss" &&
-      target >= currentWeight
-    ) {
-      const nextTarget =
-        Math.max(
-          healthyMin,
-          Math.round(
-            (currentWeight -
-              0.5) *
-              10,
-          ) / 10,
-        )
-
-      setTargetWeight(
-        String(nextTarget),
-      )
-    }
-
-  }, [
-    goal,
-    currentWeight,
-    height,
-    healthyMin,
-    healthyMax,
-    targetWeight,
-  ])
+  if (
+    Number(targetWeight) !==
+    maintenanceTarget
+  ) {
+    setTargetWeight(
+      String(maintenanceTarget),
+    )
+  }
+}, [
+  goal,
+  currentWeight,
+  height,
+  targetWeight,
+])
 
 
   /* -------------------------------------------------- */

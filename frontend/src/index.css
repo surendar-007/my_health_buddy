@@ -3,20 +3,37 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* Core dark surface palette */
+  /* Dark mode — default */
   --color-background: oklch(0.16 0.02 260);
-  --color-surface: oklch(0.2 0.025 262);
+  --color-surface: oklch(0.20 0.025 262);
   --color-surface-raised: oklch(0.24 0.03 263);
   --color-foreground: oklch(0.97 0.005 260);
   --color-muted: oklch(0.65 0.02 262);
   --color-border: oklch(0.32 0.03 264);
 
-  /* Brand + accents (3-5 colors total) */
+  /* Brand */
   --color-primary: oklch(0.78 0.16 155);
   --color-primary-foreground: oklch(0.18 0.03 160);
   --color-accent: oklch(0.72 0.14 205);
 
   --radius: 1.25rem;
+}
+
+/* -------------------------------------------------- */
+/* LIGHT MODE */
+/* -------------------------------------------------- */
+
+html.light {
+  --color-background: oklch(0.98 0.008 260);
+  --color-surface: oklch(1 0 0);
+  --color-surface-raised: oklch(0.96 0.012 260);
+  --color-foreground: oklch(0.20 0.025 260);
+  --color-muted: oklch(0.48 0.025 260);
+  --color-border: oklch(0.88 0.02 260);
+
+  --color-primary: oklch(0.62 0.16 155);
+  --color-primary-foreground: oklch(0.99 0.005 160);
+  --color-accent: oklch(0.60 0.14 205);
 }
 
 @layer base {
@@ -26,7 +43,11 @@
 
   html {
     background-color: var(--color-background);
+    color: var(--color-foreground);
     -webkit-font-smoothing: antialiased;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
   }
 
   body {
@@ -35,14 +56,17 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
   }
 
-  /* Remove number input spinners for a cleaner look */
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
+
   input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
@@ -54,6 +78,7 @@
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -65,9 +90,11 @@
     opacity: 0;
     transform: scale(0.94);
   }
+
   60% {
     transform: scale(1.02);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -80,4 +107,77 @@
 
 .animate-pop-in {
   animation: pop-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* -------------------------------------------------- */
+/* MACRO SLIDERS */
+/* -------------------------------------------------- */
+
+.macro-slider {
+  --macro-color: var(--color-primary);
+
+  width: 100%;
+  height: 18px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Chrome / Edge / Safari */
+
+.macro-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    to right,
+    var(--macro-color) 0%,
+    var(--macro-color) var(--slider-progress),
+    var(--color-border) var(--slider-progress),
+    var(--color-border) 100%
+  );
+}
+
+.macro-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 18px;
+  height: 18px;
+
+  margin-top: -6px;
+
+  border: 2px solid var(--color-background);
+  border-radius: 50%;
+
+  background: var(--macro-color);
+
+  cursor: pointer;
+}
+
+/* Firefox */
+
+.macro-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-border);
+}
+
+.macro-slider::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--macro-color);
+}
+
+.macro-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+
+  border: 2px solid var(--color-background);
+  border-radius: 50%;
+
+  background: var(--macro-color);
+
+  cursor: pointer;
 }
